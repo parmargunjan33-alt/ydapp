@@ -25,18 +25,18 @@ void main() async {
   );
 
   runApp(const ProviderScope(
-    child: StudyMateApp(),
+    child: YDApp(),
   ));
 }
 
-class StudyMateApp extends ConsumerStatefulWidget {
-  const StudyMateApp({super.key});
+class YDApp extends ConsumerStatefulWidget {
+  const YDApp({super.key});
 
   @override
-  ConsumerState<StudyMateApp> createState() => _StudyMateAppState();
+  ConsumerState<YDApp> createState() => _YDAppState();
 }
 
-class _StudyMateAppState extends ConsumerState<StudyMateApp> {
+class _YDAppState extends ConsumerState<YDApp> {
   @override
   void initState() {
     super.initState();

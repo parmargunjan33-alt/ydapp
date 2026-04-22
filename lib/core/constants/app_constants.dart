@@ -5,7 +5,7 @@ class AppConstants {
   // ── API ──────────────────────────────────────────────────────────────
   static const String baseUrl = 'http://16.171.77.217/api'; // Standard Android Emulator
   // static const String baseUrl = 'http://10.131.73.173:8001/api'; // Physical Device (Replace with your computer IP)
-  // static const String baseUrl = 'http://localhost:8001/api'; // iOS Simulator
+  // static const String baseUrl = 'http://10.0.2.2:8001/api'; // iOS Simulator
 
 
   static const int connectTimeout = 30000;

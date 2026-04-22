@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/widgets/app_webview_screen.dart';
 import './about_screen.dart';
+import './help_support_screen.dart';
 import './legal_content_screen.dart';
 import '../../auth/auth_repository.dart';
 import '../../subscription/subscription_repository.dart';
@@ -73,7 +74,12 @@ class ProfileScreen extends ConsumerWidget {
           _ProfileTile(
             icon: Icons.help_outline_rounded,
             label: 'Help & Support',
-            onTap: () => _launchUrl(AppConstants.helpSupportUrl),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HelpSupportScreen()),
+              );
+            },
           ),
           _ProfileTile(
             icon: Icons.privacy_tip_outlined,

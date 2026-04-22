@@ -90,7 +90,7 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
                       ),
                       const SizedBox(height: 16),
                       const Text(
-                        'StudyMate',
+                        'YD APP',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
                       ),
                       const SizedBox(height: 32),
                       Text(
-                        _aboutText ?? 'StudyMate is your ultimate companion for university success.',
+                        _aboutText ?? 'YD APP is your ultimate companion for university success.',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 15,
@@ -124,48 +124,6 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
                       ),
                       const SizedBox(height: 32),
                       const Divider(),
-                      const SizedBox(height: 24),
-                      const Text(
-                        'Contact Us',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'For any queries, feedback, or support, feel free to reach out to us:',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.textSecondary),
-                      ),
-                      const SizedBox(height: 16),
-                      if (_email != null)
-                        InkWell(
-                          onTap: () => _sendEmail(_email!),
-                          borderRadius: BorderRadius.circular(12),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primary.withOpacity(0.2)),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.email_outlined, color: AppColors.primary),
-                                const SizedBox(width: 12),
-                                Text(
-                                  _email!,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                       const SizedBox(height: 40),
                       Text(
                         '© ${DateTime.now().year} YD APP. All rights reserved.',
@@ -180,17 +138,7 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
     );
   }
 
-  Future<void> _sendEmail(String email) async {
-    final Uri emailLaunchUri = Uri(
-      scheme: 'mailto',
-      path: email,
-      queryParameters: {
-        'subject': 'StudyMate App Support',
-      },
-    );
-
-    if (await canLaunchUrl(emailLaunchUri)) {
-      await launchUrl(emailLaunchUri);
-    }
-  }
+  // Future<void> _sendEmail(String email) async {
+  // ... removed ...
+  // }
 }
