@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../features/auth/auth_repository.dart';
 import '../constants/app_constants.dart';
 import 'api_exception.dart';
 
@@ -30,7 +31,7 @@ final dioProvider = Provider<Dio>((ref) {
   );
 
   dio.interceptors.addAll([
-    AuthInterceptor(dio, ref.read(storageProvider)),
+    AuthInterceptor(dio, ref.read(storageProvider), ref),
     LoggingInterceptor(),
   ]);
 
@@ -41,8 +42,9 @@ final dioProvider = Provider<Dio>((ref) {
 class AuthInterceptor extends Interceptor {
   final Dio _dio;
   final FlutterSecureStorage _storage;
+  final Ref ref;
 
-  AuthInterceptor(this._dio, this._storage);
+  AuthInterceptor(this._dio, this._storage, this.ref);
 
   @override
   void onRequest(
@@ -65,12 +67,17 @@ class AuthInterceptor extends Interceptor {
               await _storage.read(key: AppConstants.keyAccessToken);
           final opts = err.requestOptions;
           opts.headers['Authorization'] = 'Bearer $token';
-          final response = await _dio.fetch(opts);
+          
+          // Use a new dio instance or clones to avoid interceptor issues on retry
+          final response = await Dio(BaseOptions(baseUrl: AppConstants.baseUrl)).fetch(opts);
           return handler.resolve(response);
         }
-      } catch (_) {}
-      // Refresh failed – clear tokens
-      await _storage.deleteAll();
+      } catch (e) {
+        // Refresh failed
+      }
+      
+      // If refresh fails, trigger global logout to redirect user to login screen
+      ref.read(authNotifierProvider.notifier).logout();
       handler.next(err);
     } else {
       handler.next(err);
@@ -82,13 +89,24 @@ class AuthInterceptor extends Interceptor {
       final refresh =
           await _storage.read(key: AppConstants.keyRefreshToken);
       if (refresh == null) return false;
-      final response = await _dio.post(
+
+      // Use a clean Dio instance for refresh to avoid interceptor recursion
+      final refreshDio = Dio(BaseOptions(
+        baseUrl: AppConstants.baseUrl,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      ));
+      final response = await refreshDio.post(
         '/auth/refresh',
         data: {'refresh_token': refresh},
       );
+      
       final data = response.data as Map<String, dynamic>;
       await _storage.write(
           key: AppConstants.keyAccessToken, value: data['access_token']);
+
       if (data['refresh_token'] != null) {
         await _storage.write(
             key: AppConstants.keyRefreshToken, value: data['refresh_token']);

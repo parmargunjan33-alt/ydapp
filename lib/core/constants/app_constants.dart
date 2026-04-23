@@ -3,13 +3,13 @@ class AppConstants {
   AppConstants._();
 
   // ── API ──────────────────────────────────────────────────────────────
-  static const String baseUrl = 'http://16.171.77.217/api'; // Standard Android Emulator
-  // static const String baseUrl = 'http://10.131.73.173:8001/api'; // Physical Device (Replace with your computer IP)
-  // static const String baseUrl = 'http://10.0.2.2:8001/api'; // iOS Simulator
+  // static const String baseUrl = 'http://10.0.2.2:8001/api'; // Android Emulator
+  // static const String baseUrl = 'http://localhost:8001/api'; // iOS Simulator
+  static const String baseUrl = 'http://16.171.77.217/api'; // Production Server
 
 
-  static const int connectTimeout = 30000;
-  static const int receiveTimeout = 30000;
+  static const int connectTimeout = 60000;
+  static const int receiveTimeout = 120000;
 
   // ── Razorpay ─────────────────────────────────────────────────────────
   static const String razorpayKeyId = 'rzp_test_SefhzMBQhj3WsM'; // REPLACE THIS WITH YOUR REAL KEY

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/auth_repository.dart';
 import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
+import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/otp_verification_screen.dart';
 import '../../features/university/presentation/university_screen.dart';
@@ -49,6 +50,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/login',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, __) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, __) => const ForgotPasswordScreen(),
       ),
       GoRoute(
         path: '/register',
@@ -173,6 +179,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isAuthRoute = loc == '/login' || 
                           loc == '/register' || 
                           loc == '/verify-otp' || 
+                          loc == '/forgot-password' ||
                           loc == '/splash';
 
       // 3. Redirect to login if not authenticated and trying to access protected routes

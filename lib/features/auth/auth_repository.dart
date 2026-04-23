@@ -111,6 +111,37 @@ class AuthRepository {
     await _storage.deleteAll();
   }
 
+  // ── Forgot Password ───────────────────────────────────────────────────
+  Future<void> sendForgotPasswordOtp(String email) async {
+    await _api.sendForgotPasswordOtp(email);
+  }
+
+  Future<String> verifyForgotPasswordOtp({
+    required String email,
+    required String otp,
+  }) async {
+    final res = await _api.verifyForgotPasswordOtp(email: email, otp: otp);
+    final token = res['verify_token'];
+    if (token == null) {
+      throw const ApiException(message: 'Verification token missing');
+    }
+    return token as String;
+  }
+
+  Future<void> resetPassword({
+    required String email,
+    required String verifyToken,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    await _api.resetPassword(
+      email: email,
+      verifyToken: verifyToken,
+      password: password,
+      passwordConfirmation: passwordConfirmation,
+    );
+  }
+
   Future<UserModel?> getStoredUser() async {
     final json = await _storage.read(key: AppConstants.keyUser);
     if (json == null) return null;

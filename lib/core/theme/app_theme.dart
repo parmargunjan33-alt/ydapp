@@ -186,9 +186,29 @@ class AppTheme {
           seedColor: AppColors.primary,
           brightness: Brightness.dark,
           surface: AppColors.darkBackground,
+          onSurface: AppColors.darkTextPrimary,
+          onSurfaceVariant: AppColors.darkTextSecondary,
         ),
         scaffoldBackgroundColor: AppColors.darkBackground,
         fontFamily: 'Poppins',
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(color: AppColors.darkTextPrimary),
+          displayMedium: TextStyle(color: AppColors.darkTextPrimary),
+          displaySmall: TextStyle(color: AppColors.darkTextPrimary),
+          headlineLarge: TextStyle(color: AppColors.darkTextPrimary),
+          headlineMedium: TextStyle(color: AppColors.darkTextPrimary),
+          headlineSmall: TextStyle(color: AppColors.darkTextPrimary),
+          titleLarge: TextStyle(color: AppColors.darkTextPrimary),
+          titleMedium: TextStyle(color: AppColors.darkTextPrimary),
+          titleSmall: TextStyle(color: AppColors.darkTextPrimary),
+          bodyLarge: TextStyle(color: AppColors.darkTextPrimary),
+          bodyMedium: TextStyle(color: AppColors.darkTextPrimary),
+          bodySmall: TextStyle(color: AppColors.darkTextSecondary),
+          labelLarge: TextStyle(color: AppColors.darkTextPrimary),
+          labelMedium: TextStyle(color: AppColors.darkTextSecondary),
+          labelSmall: TextStyle(color: AppColors.darkTextSecondary),
+        ),
+        iconTheme: const IconThemeData(color: AppColors.darkTextPrimary),
         appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.darkSurface,
           elevation: 0,
@@ -234,7 +254,7 @@ class AppTheme {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+            borderSide: const BorderSide(color: AppColors.secondary, width: 1.5),
           ),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -248,9 +268,21 @@ class AppTheme {
           color: AppColors.darkSurface,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
             side: BorderSide(color: AppColors.darkDivider),
           ),
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: AppColors.darkSurface,
+          selectedItemColor: AppColors.secondary,
+          unselectedItemColor: AppColors.darkTextSecondary,
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+        ),
+        dividerTheme: const DividerThemeData(
+          color: AppColors.darkDivider,
+          thickness: 1,
+          space: 0,
         ),
       );
 }

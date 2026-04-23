@@ -34,15 +34,15 @@ class OldPapersTab extends ConsumerWidget {
     return papersAsync.when(
       data: (papers) {
         if (papers.isEmpty) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.folder_open_rounded, size: 64, color: AppColors.textHint),
-                SizedBox(height: 16),
+                Icon(Icons.folder_open_rounded, size: 64, color: Theme.of(context).hintColor),
+                const SizedBox(height: 16),
                 Text(
                   'No files found in this subject',
-                  style: TextStyle(color: AppColors.textSecondary),
+                  style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
                 ),
               ],
             ),
@@ -224,7 +224,7 @@ class _FileCardState extends ConsumerState<_FileCard> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Text(
+                    Text(
                     widget.paper.title,
                     textAlign: TextAlign.center,
                     maxLines: 2,
@@ -233,17 +233,17 @@ class _FileCardState extends ConsumerState<_FileCard> {
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
                       color: isActuallyLocked
-                          ? AppColors.textSecondary
-                          : AppColors.textPrimary,
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                   const SizedBox(height: 4),
                   if (widget.paper.year > 0)
                     Text(
                       'Year: ${widget.paper.year}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: Theme.of(context).textTheme.bodySmall?.color,
                       ),
                     ),
                 ],

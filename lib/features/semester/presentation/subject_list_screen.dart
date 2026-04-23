@@ -25,15 +25,17 @@ class SubjectListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(semesterName),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(16),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(16),
           child: Padding(
-            padding: EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.only(bottom: 8),
             child: Text(
               'Select a Subject',
               style: TextStyle(
                 fontSize: 13,
-                color: AppColors.textSecondary,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.textSecondary,
               ),
             ),
           ),
@@ -79,7 +81,9 @@ class _SubjectCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.darkSurface
+            : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -110,12 +114,16 @@ class _SubjectCard extends StatelessWidget {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.secondary.withOpacity(0.2)
+                        : AppColors.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.book_rounded,
-                    color: AppColors.primary,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.secondary
+                        : AppColors.primary,
                     size: 24,
                   ),
                 ),
@@ -126,18 +134,23 @@ class _SubjectCard extends StatelessWidget {
                     children: [
                       Text(
                         subject.name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       if (subject.code != null) ...[
                         const SizedBox(height: 2),
                         Text(
                           subject.code!,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.textSecondary,
                           ),
                         ),
                       ],

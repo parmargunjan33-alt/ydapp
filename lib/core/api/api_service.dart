@@ -77,6 +77,27 @@ class ApiService {
 
   Future<Map<String, dynamic>> getProfile() => get('/auth/profile');
 
+  // ── Forgot Password ───────────────────────────────────────────────────
+  Future<Map<String, dynamic>> sendForgotPasswordOtp(String email) =>
+      post('/auth/forgot-password/send-otp', data: {'email': email});
+
+  Future<Map<String, dynamic>> verifyForgotPasswordOtp(
+          {required String email, required String otp}) =>
+      post('/auth/forgot-password/verify-otp', data: {'email': email, 'otp': otp});
+
+  Future<Map<String, dynamic>> resetPassword({
+    required String email,
+    required String verifyToken,
+    required String password,
+    required String passwordConfirmation,
+  }) =>
+      post('/auth/forgot-password/reset', data: {
+        'email': email,
+        'verify_token': verifyToken,
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+      });
+
   Future<Map<String, dynamic>> getContactInfo() => get('/contact-info');
 
   // ── Universities ──────────────────────────────────────────────────────

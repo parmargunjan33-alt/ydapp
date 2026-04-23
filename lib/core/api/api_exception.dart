@@ -24,12 +24,14 @@ class ApiException implements Exception {
         final code = e.response?.statusCode;
         final data = e.response?.data;
         String msg = 'Something went wrong';
-        dynamic errs;
-        if (data is Map<String, dynamic>) {
+        
+        if (code == 401) {
+          msg = 'Your session has expired. Please login again.';
+        } else if (data is Map<String, dynamic>) {
           msg = data['message'] as String? ?? msg;
-          errs = data['errors'];
         }
-        return ApiException(message: msg, statusCode: code, errors: errs);
+        
+        return ApiException(message: msg, statusCode: code, errors: data is Map ? data['errors'] : null);
       case DioExceptionType.cancel:
         return const ApiException(message: 'Request was cancelled.');
       case DioExceptionType.connectionError:

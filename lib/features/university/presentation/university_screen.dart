@@ -190,12 +190,19 @@ class _LogoPlaceholder extends StatelessWidget {
     return Container(
       width: 52,
       height: 52,
-      color: AppColors.primary.withOpacity(0.1),
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.secondary.withOpacity(0.2)
+            : AppColors.primary.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Center(
         child: Text(
           display.toUpperCase(),
           style: TextStyle(
-            color: AppColors.primary,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.secondary
+                : AppColors.primary,
             fontSize: display.length > 2 ? 14 : 20,
             fontWeight: FontWeight.w700,
           ),

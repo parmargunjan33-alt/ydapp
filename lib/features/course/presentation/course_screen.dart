@@ -42,7 +42,9 @@ class _CourseScreenState extends ConsumerState<CourseScreen> {
               'Select a course',
               style: TextStyle(
                 fontSize: 13,
-                color: AppColors.textSecondary,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.textSecondary,
               ),
             ),
           ),
@@ -150,11 +152,16 @@ class _CourseCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.secondary.withOpacity(0.2)
+                      : AppColors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(_iconForCourse(course.name),
-                    color: AppColors.primary, size: 26),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.secondary
+                        : AppColors.primary,
+                    size: 26),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -177,15 +184,19 @@ class _CourseCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppColors.surfaceVariant,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppColors.darkSurfaceVariant
+                                  : AppColors.surfaceVariant,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
                               course.shortName!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.textSecondary,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary,
                               ),
                             ),
                           ),
@@ -208,9 +219,11 @@ class _CourseCard extends StatelessWidget {
                       course.semestersCount > 0
                           ? '${course.semestersCount} semesters'
                           : 'Explore semesters',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.primary,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.secondary
+                            : AppColors.primary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
