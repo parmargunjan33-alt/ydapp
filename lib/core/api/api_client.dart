@@ -58,7 +58,9 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401) {
+    final isLoginRequest = err.requestOptions.path.contains('login');
+
+    if (err.response?.statusCode == 401 && !isLoginRequest) {
       // Attempt token refresh
       try {
         final refreshed = await _refreshToken();

@@ -39,7 +39,7 @@ class AppConstants {
   static const String langGujarati = 'gu';
 
   // ── Links ─────────────────────────────────────────────────────────────
-  static const String _webBaseUrl = 'http://10.0.2.2:8001'; 
+  static const String _webBaseUrl = 'http://16.171.77.217';
 
   static const String privacyPolicyUrl = '$_webBaseUrl/privacy-policy';
   static const String termsConditionsUrl = '$_webBaseUrl/terms-and-conditions';

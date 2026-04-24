@@ -25,8 +25,14 @@ class ApiException implements Exception {
         final data = e.response?.data;
         String msg = 'Something went wrong';
         
-        if (code == 401) {
-          msg = 'Your session has expired. Please login again.';
+        if (data is Map<String, dynamic> && data['message'] != null) {
+          msg = data['message'] as String;
+        } else if (code == 401) {
+          if (e.requestOptions.path.contains('login')) {
+            msg = 'Invalid credentials. Please check your email/mobile and password.';
+          } else {
+            msg = 'Your session has expired. Please login again.';
+          }
         } else if (data is Map<String, dynamic>) {
           msg = data['message'] as String? ?? msg;
         }
