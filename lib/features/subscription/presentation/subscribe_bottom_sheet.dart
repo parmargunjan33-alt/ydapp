@@ -237,7 +237,7 @@ class _SubscribeBottomSheetState
           // Features list
           ...[
             ('Summary book + past paper + IMP', Icons.description_rounded),
-            ('6 month full access to semester', Icons.calendar_today_rounded),
+            ('Full access till completion of semester', Icons.calendar_today_rounded),
             ('Unlimited access', Icons.visibility_rounded),
             ('Secure content', Icons.security_rounded),
           ].map(
