@@ -38,6 +38,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final success = await ref.read(authNotifierProvider.notifier).login(
           identifier: _identifierCtrl.text.trim(),
           password: _passwordCtrl.text,
+          deviceId: 'unique_device_id', // TODO: Use device_info_plus
+          deviceName: 'Android Device',
         );
     
     if (mounted) {

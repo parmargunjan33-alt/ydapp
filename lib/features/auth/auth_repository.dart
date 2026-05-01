@@ -41,8 +41,15 @@ class AuthRepository {
   Future<UserModel> login({
     required String identifier,
     required String password,
+    String? deviceId,
+    String? deviceName,
   }) async {
-    final res = await _api.login(identifier: identifier, password: password);
+    final res = await _api.login(
+      identifier: identifier,
+      password: password,
+      deviceId: deviceId,
+      deviceName: deviceName,
+    );
     
     // Support both {user: ...} and {data: {user: ...}} or just {token: ..., user: ...}
     final data = res.containsKey('data') ? res['data'] as Map<String, dynamic> : res;
@@ -259,13 +266,20 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<bool> login({
     required String identifier,
     required String password,
+    String? deviceId,
+    String? deviceName,
   }) async {
     final repo = ref.read(authRepositoryProvider);
     try {
       print('DEBUG: Starting login for $identifier');
       state = state.copyWith(status: AuthStatus.authenticating, error: null);
       
-      final res = await repo.login(identifier: identifier, password: password);
+      final res = await repo.login(
+        identifier: identifier,
+        password: password,
+        deviceId: deviceId,
+        deviceName: deviceName,
+      );
       print('DEBUG: API Response received: $res');
 
       state = AuthState(status: AuthStatus.authenticated, user: res);

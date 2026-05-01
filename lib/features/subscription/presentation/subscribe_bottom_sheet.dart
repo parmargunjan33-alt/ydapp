@@ -64,7 +64,7 @@ class _SubscribeBottomSheetState
       final int amount = rawAmount is num ? rawAmount.toInt() : int.tryParse(rawAmount.toString()) ?? 7500;
 
       final options = {
-        'key': AppConstants.razorpayKeyId, // Use the constant directly to be sure
+        'key': AppConstants.razorpayKeyId,
         'amount': amount,
         'name': AppConstants.companyName,
         'description': '${widget.semesterName} Access',
@@ -79,8 +79,13 @@ class _SubscribeBottomSheetState
         'retry': {'enabled': false},
       };
 
-      debugPrint('🚀 Opening Razorpay with Order ID: $_orderId');
-      _razorpay.open(options);
+      debugPrint('🚀 Opening Razorpay with Options: $options');
+      try {
+        _razorpay.open(options);
+      } catch (e) {
+        debugPrint('❌ Razorpay Crash: $e');
+        AppSnackbar.error(context, 'Could not open payment gateway');
+      }
     } catch (e) {
       if (mounted) {
         setState(() => _loading = false);
@@ -150,7 +155,13 @@ class _SubscribeBottomSheetState
           break;
       }
 
-      debugPrint('❌ Razorpay Error: Code ${response.code} | ${response.message}');
+      debugPrint('❌ Razorpay Error: Code ${response.code} | Message: ${response.message}');
+      
+      // If code is 0, it might be an internal SDK error or bad options
+      if (response.code == 0) {
+        debugPrint('💡 Hint: Check if your Order ID was generated with the matching Secret Key.');
+      }
+
       AppSnackbar.error(context, errorMsg);
     }
   }

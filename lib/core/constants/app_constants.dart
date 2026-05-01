@@ -5,14 +5,14 @@ class AppConstants {
   // ── API ──────────────────────────────────────────────────────────────
   // static const String baseUrl = 'http://10.0.2.2:8001/api'; // Android Emulator
   // static const String baseUrl = 'http://localhost:8001/api'; // iOS Simulator
-  static const String baseUrl = 'http://16.171.77.217/api'; // Production Server
+  static const String baseUrl = 'https://api.ydapp.in/api'; // Production Server
 
 
   static const int connectTimeout = 60000;
   static const int receiveTimeout = 120000;
 
   // ── Razorpay ─────────────────────────────────────────────────────────
-  static const String razorpayKeyId = 'rzp_test_SefhzMBQhj3WsM'; // REPLACE THIS WITH YOUR REAL KEY
+  static const String razorpayKeyId = 'rzp_live_SjgjKHHhEuQ0dc';
   static const String razorpayKeySecret = ''; // Never store in app!
   static const int semesterPrice = 7500; // in paise (₹75)
   static const String currency = 'INR';

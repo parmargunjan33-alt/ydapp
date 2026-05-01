@@ -41,12 +41,16 @@ class ApiService {
   Future<Map<String, dynamic>> login({
     required String identifier, // email or phone
     required String password,
+    String? deviceId,
+    String? deviceName,
   }) {
     // Determine the key based on the input format
     final bool isEmail = identifier.contains('@');
     final Map<String, dynamic> loginData = {
       isEmail ? 'email' : 'mobile': identifier,
       'password': password,
+      'device_id': deviceId ?? 'unknown_device',
+      'device_name': deviceName ?? 'Android Device',
     };
 
     return post('/auth/login', data: loginData);
@@ -79,11 +83,11 @@ class ApiService {
 
   // ── Forgot Password ───────────────────────────────────────────────────
   Future<Map<String, dynamic>> sendForgotPasswordOtp(String email) =>
-      post('/auth/forgot-password/send-otp', data: {'email': email});
+      post('/forgot-password/send-otp', data: {'email': email});
 
   Future<Map<String, dynamic>> verifyForgotPasswordOtp(
           {required String email, required String otp}) =>
-      post('/auth/forgot-password/verify-otp', data: {'email': email, 'otp': otp});
+      post('/forgot-password/verify-otp', data: {'email': email, 'otp': otp});
 
   Future<Map<String, dynamic>> resetPassword({
     required String email,
@@ -91,7 +95,7 @@ class ApiService {
     required String password,
     required String passwordConfirmation,
   }) =>
-      post('/auth/forgot-password/reset', data: {
+      post('/forgot-password/reset', data: {
         'email': email,
         'verify_token': verifyToken,
         'password': password,
