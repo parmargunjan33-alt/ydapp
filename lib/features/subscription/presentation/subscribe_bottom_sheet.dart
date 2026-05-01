@@ -268,44 +268,6 @@ class _SubscribeBottomSheetState
             ),
           ),
           const SizedBox(height: 20),
-          // Price badge
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'One-time payment',
-                  style: TextStyle(
-                    color: secondaryTextColor,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  decoration: BoxDecoration(
-                    gradient: AppColors.primaryGradient,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    '₹75',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
           AppButton(
             label: 'Pay ₹75 & Unlock Access',
             loading: _loading,
@@ -317,7 +279,7 @@ class _SubscribeBottomSheetState
             'Secure payment powered by Razorpay',
             style: TextStyle(
               fontSize: 12,
-              color: isDark ? AppColors.darkTextSecondary.withOpacity(0.5) : AppColors.textHint,
+              color: isDark ? AppColors.darkTextSecondary.withOpacity(0.7) : AppColors.textHint,
             ),
           ),
         ],
