@@ -35,13 +35,14 @@ class PdfViewerScreen extends ConsumerStatefulWidget {
 class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
   final PdfViewerController _pdfController = PdfViewerController();
   final SearchController _searchController = SearchController();
+  final ValueNotifier<int> _currentPageNotifier = ValueNotifier<int>(1);
   PdfTextSearchResult _searchResult = PdfTextSearchResult();
   bool _isSearchOpen = false;
-  int _currentPage = 1;
   int _totalPages = 0;
   bool _isLoading = true;
   bool _hitPreviewLimit = false;
   String? _localPath;
+  File? _pdfFile;
   double _downloadProgress = 0;
   String? _errorMessage;
 
@@ -65,9 +66,8 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
       if (await file.exists()) {
         setState(() {
           _localPath = filePath;
+          _pdfFile = file;
           // Note: _isLoading will be set to false in onDocumentLoaded
-          // or we can set it to false here if we want to show the viewer immediately
-          // but SfPdfViewer also takes a moment to load from file.
         });
         return;
       }
@@ -88,6 +88,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
       if (mounted) {
         setState(() {
           _localPath = filePath;
+          _pdfFile = File(filePath);
         });
       }
     } catch (e) {
@@ -104,6 +105,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
   void dispose() {
     _disableScreenSecurity();
     _pdfController.dispose();
+    _currentPageNotifier.dispose();
     _searchResult.clear();
     super.dispose();
   }
@@ -124,12 +126,14 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
   }
 
   void _onPageChanged(PdfPageChangedDetails details) {
-    setState(() => _currentPage = details.newPageNumber);
+    _currentPageNotifier.value = details.newPageNumber;
 
     // Enforce preview limit for unsubscribed users
     if (!widget.isSubscribed &&
         details.newPageNumber > AppConstants.pdfPreviewPages) {
-      setState(() => _hitPreviewLimit = true);
+      if (!_hitPreviewLimit) {
+        setState(() => _hitPreviewLimit = true);
+      }
       // Snap back to last allowed page
       _pdfController.jumpToPage(AppConstants.pdfPreviewPages);
     }
@@ -166,9 +170,14 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(right: 16),
-                child: Text(
-                  '$_currentPage / $_totalPages',
-                  style: const TextStyle(color: Colors.white70, fontSize: 13),
+                child: ValueListenableBuilder<int>(
+                  valueListenable: _currentPageNotifier,
+                  builder: (context, page, _) {
+                    return Text(
+                      '$page / $_totalPages',
+                      style: const TextStyle(color: Colors.white70, fontSize: 13),
+                    );
+                  },
                 ),
               ),
             ),
@@ -244,9 +253,9 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
           Expanded(
             child: Stack(
               children: [
-                if (_localPath != null)
+                if (_pdfFile != null)
                   SfPdfViewer.file(
-                    File(_localPath!),
+                    _pdfFile!,
                     controller: _pdfController,
                     onDocumentLoaded: (details) {
                       setState(() {
@@ -269,9 +278,10 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
                     enableDoubleTapZooming: true,
                     pageLayoutMode: PdfPageLayoutMode.continuous,
                     scrollDirection: PdfScrollDirection.vertical,
-                    interactionMode: PdfInteractionMode.pan,
                     // Disable context menu (copy, etc.)
                     enableHyperlinkNavigation: false,
+                    canShowScrollHead: true,
+                    pageSpacing: 4,
                   )
                 else if (_errorMessage != null)
                   Center(
@@ -372,21 +382,26 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
                   Positioned(
                     top: 12,
                     right: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: AppColors.warning.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        'Preview: $_currentPage / ${AppConstants.pdfPreviewPages} pages',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    child: ValueListenableBuilder<int>(
+                      valueListenable: _currentPageNotifier,
+                      builder: (context, page, _) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: AppColors.warning.withOpacity(0.9),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'Preview: $page / ${AppConstants.pdfPreviewPages} pages',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
               ],
