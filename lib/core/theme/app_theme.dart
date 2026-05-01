@@ -110,6 +110,8 @@ class AppTheme {
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: AppColors.surfaceVariant,
+          prefixIconColor: AppColors.textSecondary,
+          suffixIconColor: AppColors.textSecondary,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
             borderSide: BorderSide.none,
@@ -128,6 +130,11 @@ class AppTheme {
           ),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          labelStyle: const TextStyle(
+            color: AppColors.textSecondary,
+            fontSize: 14,
+            fontFamily: 'Poppins',
+          ),
           hintStyle: const TextStyle(
             color: AppColors.textHint,
             fontSize: 14,
@@ -184,6 +191,7 @@ class AppTheme {
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primary,
+          primary: AppColors.secondary,
           brightness: Brightness.dark,
           surface: AppColors.darkBackground,
           onSurface: AppColors.darkTextPrimary,
@@ -227,8 +235,8 @@ class AppTheme {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            foregroundColor: Colors.white,
+            backgroundColor: AppColors.secondary,
+            foregroundColor: AppColors.primaryDark,
             minimumSize: const Size(double.infinity, 52),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
@@ -241,9 +249,20 @@ class AppTheme {
             elevation: 0,
           ),
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.secondary,
+            textStyle: const TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: AppColors.darkSurfaceVariant,
+          prefixIconColor: AppColors.darkTextSecondary,
+          suffixIconColor: AppColors.darkTextSecondary,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
             borderSide: BorderSide.none,
@@ -258,6 +277,11 @@ class AppTheme {
           ),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          labelStyle: const TextStyle(
+            color: AppColors.darkTextSecondary,
+            fontSize: 14,
+            fontFamily: 'Poppins',
+          ),
           hintStyle: const TextStyle(
             color: AppColors.darkTextSecondary,
             fontSize: 14,

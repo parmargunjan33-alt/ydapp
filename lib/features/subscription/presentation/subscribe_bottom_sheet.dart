@@ -176,10 +176,15 @@ class _SubscribeBottomSheetState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : AppColors.textPrimary;
+    final secondaryTextColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkSurface : Colors.white,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: const EdgeInsets.fromLTRB(24, 12, 24, 40),
       child: Column(
@@ -190,7 +195,7 @@ class _SubscribeBottomSheetState
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.divider,
+              color: isDark ? AppColors.darkDivider : AppColors.divider,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -212,27 +217,28 @@ class _SubscribeBottomSheetState
           const SizedBox(height: 16),
           Text(
             'Unlock ${widget.semesterName}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
+              color: textColor,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Get full access to all old papers and content',
+          Text(
+            'Get full access to all summary book and past paper of this semester',
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: secondaryTextColor,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           // Features list
           ...[
-            ('All old exam papers', Icons.description_rounded),
-            ('6 months full access', Icons.calendar_today_rounded),
-            ('Unlimited views', Icons.visibility_rounded),
+            ('Summary book + past paper + IMP', Icons.description_rounded),
+            ('6 month full access to semester', Icons.calendar_today_rounded),
+            ('Unlimited access', Icons.visibility_rounded),
             ('Secure content', Icons.security_rounded),
           ].map(
             (item) => Padding(
@@ -251,9 +257,10 @@ class _SubscribeBottomSheetState
                   const SizedBox(width: 12),
                   Text(
                     item.$1,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -265,16 +272,16 @@ class _SubscribeBottomSheetState
           Container(
             padding: const EdgeInsets.symmetric(vertical: 14),
             decoration: BoxDecoration(
-              color: AppColors.surfaceVariant,
+              color: isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant,
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'One-time payment',
                   style: TextStyle(
-                    color: AppColors.textSecondary,
+                    color: secondaryTextColor,
                     fontSize: 14,
                   ),
                 ),
@@ -306,11 +313,11 @@ class _SubscribeBottomSheetState
             icon: Icons.payment_rounded,
           ),
           const SizedBox(height: 12),
-          const Text(
+          Text(
             'Secure payment powered by Razorpay',
             style: TextStyle(
               fontSize: 12,
-              color: AppColors.textHint,
+              color: isDark ? AppColors.darkTextSecondary.withOpacity(0.5) : AppColors.textHint,
             ),
           ),
         ],

@@ -137,25 +137,52 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
             Text(
               'We have sent a 6-digit code to\n${widget.email}',
               textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.textSecondary,
+              ),
             ),
             const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(6, (index) {
                 return SizedBox(
-                  width: 45,
+                  width: 50,
+                  height: 60,
                   child: TextField(
                     controller: _controllers[index],
                     focusNode: _focusNodes[index],
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     maxLength: 1,
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
+                    ),
                     decoration: InputDecoration(
                       counterText: "",
-                      contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      contentPadding: EdgeInsets.zero,
+                      filled: true,
+                      fillColor: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkSurfaceVariant
+                          : AppColors.surfaceVariant,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.secondary
+                              : AppColors.primary,
+                          width: 2,
+                        ),
+                      ),
                     ),
                     onChanged: (value) {
                       if (value.isNotEmpty && index < 5) {
@@ -178,13 +205,24 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Didn't receive code? "),
+                Text(
+                  "Didn't receive code? ",
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
+                  ),
+                ),
                 TextButton(
                   onPressed: _timerSeconds == 0 ? _resendOtp : null,
                   child: Text(
                     _timerSeconds == 0 ? 'Resend' : 'Resend in ${_timerSeconds}s',
                     style: TextStyle(
-                      color: _timerSeconds == 0 ? AppColors.primary : AppColors.textSecondary,
+                      color: _timerSeconds == 0
+                          ? (Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.secondary
+                              : AppColors.primary)
+                          : AppColors.textHint,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -20,12 +20,17 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final loaderColor = outlined
+        ? (isDark ? AppColors.secondary : AppColors.primary)
+        : (isDark ? AppColors.primaryDark : Colors.white);
+
     final child = loading
-        ? const SizedBox(
+        ? SizedBox(
             width: 22,
             height: 22,
             child: CircularProgressIndicator(
-              color: Colors.white,
+              color: loaderColor,
               strokeWidth: 2.5,
             ),
           )
